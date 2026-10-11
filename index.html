@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Raccolta Pensieri</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: env(safe-area-inset-top, 24px) 20px env(safe-area-inset-bottom, 32px);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      padding: 32px 4px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: transform 0.15s ease;
+    }
+
+    .card:active {
+      transform: scale(0.985);
+    }
+
+    .quote-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      fill: var(--accent);
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .card-content {
+      flex-grow: 1;
+    }
+
+    .card-text {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .card-number {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Pensieri & Citazioni</h1>
+    <p class="subtitle">100 frammenti per te</p>
+  </header>
+
+  <main class="container">
+    <!-- Esempio di Card -->
+    <div class="card">
+      <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      <div class="card-content">
+        <p class="card-text">Questa è la prima frase di prova. Puoi sostituire questo testo con quello che preferisci.</p>
+        <span class="card-number">#01</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      <div class="card-content">
+        <p class="card-text">Puoi duplicare questi blocchi per arrivare a 100 frasi o generarli via script.</p>
+        <span class="card-number">#02</span>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
