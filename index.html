@@ -51,7 +51,7 @@
       align-items: center;
     }
 
-    /* --- INIZIO SEZIONE ECG E CUORE --- */
+    /* --- INIZIO SEZIONE SEQUENZIALE ECG --- */
     .header-ecg {
       display: flex;
       align-items: center;
@@ -77,49 +77,47 @@
       stroke-dashoffset: 150;
     }
 
-    /* Animazione segnale in entrata (da sinistra) */
+    /* FASE 1: L'onda sinistra si disegna e scompare */
     .ecg-left {
-      animation: drawLeft 3s infinite ease-out;
+      animation: drawLeft 3.5s infinite linear;
     }
     @keyframes drawLeft {
       0% { stroke-dashoffset: 150; opacity: 0; }
-      5% { opacity: 1; }
-      20% { stroke-dashoffset: 0; opacity: 1; }
-      /* Mantiene la linea visibile per lunghissimo tempo */
-      85% { stroke-dashoffset: 0; opacity: 1; } 
-      95% { stroke-dashoffset: 0; opacity: 0; }
-      100% { stroke-dashoffset: 150; opacity: 0; }
+      2% { opacity: 1; }
+      12% { stroke-dashoffset: 0; opacity: 1; } /* Fine disegno */
+      16% { stroke-dashoffset: 0; opacity: 1; } /* Pausa visibile */
+      22% { stroke-dashoffset: 0; opacity: 0; } /* Scompare */
+      100% { stroke-dashoffset: 0; opacity: 0; } /* Resta nascosta per il resto del ciclo */
     }
 
-    /* Cuore al centro con doppio battito sincronizzato */
+    /* FASE 2: Il cuore batte da solo (subito dopo che la linea è scomparsa) */
     .heart-icon {
       width: 32px;
       height: 32px;
       fill: var(--accent);
       margin: 0 12px;
-      animation: beatSync 3s infinite;
+      animation: beatSync 3.5s infinite linear;
       filter: drop-shadow(0 4px 8px rgba(255, 59, 48, 0.4));
     }
     @keyframes beatSync {
-      0%, 18% { transform: scale(1); }
-      22% { transform: scale(1.25); }
-      26% { transform: scale(1); }
-      30% { transform: scale(1.25); }
-      34%, 100% { transform: scale(1); }
+      0%, 21% { transform: scale(1); }
+      24% { transform: scale(1.25); } /* Primo picco */
+      27% { transform: scale(1); }    /* Ritorno */
+      30% { transform: scale(1.25); } /* Secondo picco */
+      34%, 100% { transform: scale(1); } /* Torna a riposo */
     }
 
-    /* Animazione segnale in uscita (verso destra) */
+    /* FASE 3: L'onda destra parte e scompare */
     .ecg-right {
-      animation: drawRight 3s infinite ease-out;
+      animation: drawRight 3.5s infinite linear;
     }
     @keyframes drawRight {
-      0%, 28% { stroke-dashoffset: 150; opacity: 0; }
-      30% { opacity: 1; }
-      45% { stroke-dashoffset: 0; opacity: 1; }
-      /* Rimane visibile insieme all'onda sinistra */
-      85% { stroke-dashoffset: 0; opacity: 1; }
-      95% { stroke-dashoffset: 0; opacity: 0; }
-      100% { stroke-dashoffset: 150; opacity: 0; }
+      0%, 33% { stroke-dashoffset: 150; opacity: 0; }
+      35% { opacity: 1; stroke-dashoffset: 150; }
+      45% { stroke-dashoffset: 0; opacity: 1; } /* Fine disegno */
+      49% { stroke-dashoffset: 0; opacity: 1; } /* Pausa visibile */
+      55% { stroke-dashoffset: 0; opacity: 0; } /* Scompare */
+      100% { stroke-dashoffset: 0; opacity: 0; } /* Pausa di respiro fino alla fine del ciclo */
     }
     /* --- FINE SEZIONE ECG --- */
 
