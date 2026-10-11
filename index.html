@@ -6,8 +6,8 @@
   <title>Per la mia futura dottoressa</title>
   <style>
     :root {
-      var(--bg-color): #f2f2f7;
-      var(--card-bg): #ffffff;
+      --bg-color: #f2f2f7;
+      --card-bg: #ffffff;
       --text-main: #1c1c1e;
       --text-secondary: #8e8e93;
       --accent: #FF3B30;
@@ -17,7 +17,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      background-color: #f2f2f7;
+      background-color: var(--bg-color);
       color: var(--text-main);
       height: 100vh;
       display: flex;
@@ -79,15 +79,15 @@
 
     /* Animazione segnale in entrata (da sinistra) */
     .ecg-left {
-      animation: drawLeft 2.5s infinite ease-out;
+      animation: drawLeft 3s infinite ease-out;
     }
     @keyframes drawLeft {
       0% { stroke-dashoffset: 150; opacity: 0; }
       5% { opacity: 1; }
       20% { stroke-dashoffset: 0; opacity: 1; }
-      /* Attende che la destra finisca per sfumare insieme */
-      45% { stroke-dashoffset: 0; opacity: 1; } 
-      80% { stroke-dashoffset: 0; opacity: 0; }
+      /* Mantiene la linea visibile per lunghissimo tempo */
+      85% { stroke-dashoffset: 0; opacity: 1; } 
+      95% { stroke-dashoffset: 0; opacity: 0; }
       100% { stroke-dashoffset: 150; opacity: 0; }
     }
 
@@ -97,7 +97,7 @@
       height: 32px;
       fill: var(--accent);
       margin: 0 12px;
-      animation: beatSync 2.5s infinite;
+      animation: beatSync 3s infinite;
       filter: drop-shadow(0 4px 8px rgba(255, 59, 48, 0.4));
     }
     @keyframes beatSync {
@@ -110,14 +110,15 @@
 
     /* Animazione segnale in uscita (verso destra) */
     .ecg-right {
-      animation: drawRight 2.5s infinite ease-out;
+      animation: drawRight 3s infinite ease-out;
     }
     @keyframes drawRight {
       0%, 28% { stroke-dashoffset: 150; opacity: 0; }
       30% { opacity: 1; }
       45% { stroke-dashoffset: 0; opacity: 1; }
-      /* Sfuma dolcemente in uscita insieme alla linea di sinistra */
-      80% { stroke-dashoffset: 0; opacity: 0; }
+      /* Rimane visibile insieme all'onda sinistra */
+      85% { stroke-dashoffset: 0; opacity: 1; }
+      95% { stroke-dashoffset: 0; opacity: 0; }
       100% { stroke-dashoffset: 150; opacity: 0; }
     }
     /* --- FINE SEZIONE ECG --- */
@@ -228,4 +229,13 @@
       }, 400); 
     }
 
-    window.onload = show
+    window.onload = showRandomQuote;
+
+    btn.addEventListener("click", () => {
+      if (navigator.vibrate) navigator.vibrate([30, 50, 30]); 
+      showRandomQuote();
+    });
+  </script>
+
+</body>
+</html>
