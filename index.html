@@ -6,11 +6,12 @@
   <title>Per la mia futura dottoressa</title>
   <style>
     :root {
-      --bg-color: #f2f2f7;
+      /* Tema chiaro elegante */
+      --bg-color: #f2f2f7; /* Grigio chiarissimo di sistema iOS */
       --card-bg: #ffffff;
       --text-main: #1c1c1e;
       --text-secondary: #8e8e93;
-      --accent: #FF3B30;
+      --accent: #FF3B30; /* Rosso brillante iOS */
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,6 +38,7 @@
       gap: 30px;
     }
 
+    /* Stile della Card bianca con ombra delicata */
     .card {
       background: var(--card-bg);
       border-radius: 28px;
@@ -51,7 +53,7 @@
       align-items: center;
     }
 
-    /* --- INIZIO SEZIONE SEQUENZIALE ECG --- */
+    /* --- INIZIO SEZIONE ECG E CUORE --- */
     .header-ecg {
       display: flex;
       align-items: center;
@@ -77,47 +79,45 @@
       stroke-dashoffset: 150;
     }
 
-    /* FASE 1: L'onda sinistra si disegna e scompare */
+    /* Animazione segnale in entrata (da sinistra) */
     .ecg-left {
-      animation: drawLeft 3.5s infinite linear;
+      animation: drawLeft 2.4s infinite linear;
     }
     @keyframes drawLeft {
       0% { stroke-dashoffset: 150; opacity: 0; }
-      2% { opacity: 1; }
-      12% { stroke-dashoffset: 0; opacity: 1; } /* Fine disegno */
-      16% { stroke-dashoffset: 0; opacity: 1; } /* Pausa visibile */
-      22% { stroke-dashoffset: 0; opacity: 0; } /* Scompare */
-      100% { stroke-dashoffset: 0; opacity: 0; } /* Resta nascosta per il resto del ciclo */
+      5% { opacity: 1; }
+      25% { stroke-dashoffset: 0; opacity: 1; }
+      30% { stroke-dashoffset: 0; opacity: 0; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
     }
 
-    /* FASE 2: Il cuore batte da solo (subito dopo che la linea è scomparsa) */
+    /* Cuore al centro con doppio battito sincronizzato */
     .heart-icon {
       width: 32px;
       height: 32px;
       fill: var(--accent);
       margin: 0 12px;
-      animation: beatSync 3.5s infinite linear;
+      animation: beatSync 2.4s infinite linear;
       filter: drop-shadow(0 4px 8px rgba(255, 59, 48, 0.4));
     }
     @keyframes beatSync {
-      0%, 21% { transform: scale(1); }
-      24% { transform: scale(1.25); } /* Primo picco */
-      27% { transform: scale(1); }    /* Ritorno */
-      30% { transform: scale(1.25); } /* Secondo picco */
-      34%, 100% { transform: scale(1); } /* Torna a riposo */
+      0%, 24% { transform: scale(1); }
+      26% { transform: scale(1.25); } /* Primo battito */
+      32% { transform: scale(1); }
+      38% { transform: scale(1.25); } /* Secondo battito */
+      44%, 100% { transform: scale(1); }
     }
 
-    /* FASE 3: L'onda destra parte e scompare */
+    /* Animazione segnale in uscita (verso destra) */
     .ecg-right {
-      animation: drawRight 3.5s infinite linear;
+      animation: drawRight 2.4s infinite linear;
     }
     @keyframes drawRight {
-      0%, 33% { stroke-dashoffset: 150; opacity: 0; }
-      35% { opacity: 1; stroke-dashoffset: 150; }
-      45% { stroke-dashoffset: 0; opacity: 1; } /* Fine disegno */
-      49% { stroke-dashoffset: 0; opacity: 1; } /* Pausa visibile */
-      55% { stroke-dashoffset: 0; opacity: 0; } /* Scompare */
-      100% { stroke-dashoffset: 0; opacity: 0; } /* Pausa di respiro fino alla fine del ciclo */
+      0%, 40% { stroke-dashoffset: 150; opacity: 0; }
+      42% { opacity: 1; stroke-dashoffset: 150; }
+      62% { stroke-dashoffset: 0; opacity: 1; }
+      67% { stroke-dashoffset: 0; opacity: 0; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
     }
     /* --- FINE SEZIONE ECG --- */
 
@@ -161,6 +161,7 @@
       box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);
     }
 
+    /* Classi per l'animazione di transizione delle frasi */
     .fade-out { opacity: 0 !important; transform: translateY(5px); }
   </style>
 </head>
@@ -169,35 +170,41 @@
   <div class="container">
     <div class="card">
       
+      <!-- Blocco Elettrocardiogramma + Cuore -->
       <div class="header-ecg">
+        <!-- Onda di sinistra -->
         <svg class="ecg-svg" viewBox="0 0 100 40">
           <polyline class="ecg-line ecg-left" points="0,20 20,20 25,16 30,20 35,20 37,22 42,4 47,32 50,20 60,20 65,14 75,20 100,20" />
         </svg>
         
+        <!-- Cuore -->
         <svg class="heart-icon" viewBox="0 0 24 24">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
 
+        <!-- Onda di destra -->
         <svg class="ecg-svg" viewBox="0 0 100 40">
           <polyline class="ecg-line ecg-right" points="0,20 15,20 20,16 25,20 30,20 32,22 37,4 42,32 45,20 55,20 60,14 70,20 100,20" />
         </svg>
       </div>
 
+      <!-- Testi -->
       <p id="quote-text">Sincronizzazione in corso...</p>
       <p id="quote-author"></p>
     </div>
 
+    <!-- Pulsante Inferiore -->
     <button id="next-btn" class="btn">Un altro battito</button>
   </div>
 
   <script>
     const quotes = [
-      { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore immenso.", author: "Dada" },
-      { text: "Studia fino a quando l'anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Dada" },
-      { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Dada" },
-      { text: "Fai un bel respiro, dottoressa. Non c'è ostacolo che tu non possa superare. Credo in te.", author: "Dada" },
-      { text: "La medicina cura l'uomo. Ma l'amore e la dedizione lo fanno vivere.", author: "Dada" },
-      { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Dada" },
+      { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore immenso.", author: "Medicina" },
+      { text: "Studia fino a quando l'anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione" },
+      { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Il tuo percorso" },
+      { text: "Fai un bel respiro, dottoressa. Non c'è ostacolo che tu non possa superare. Credo in te. – Dada", author: "Per te" },
+      { text: "La medicina cura l'uomo. Ma l'amore e la dedizione lo fanno vivere.", author: "Ispirazione" },
+      { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Studio" },
       { text: "Il successo non è definitivo, il fallimento non è fatale: ciò che conta è il coraggio di andare avanti.", author: "Winston Churchill" }
     ];
 
@@ -230,7 +237,7 @@
     window.onload = showRandomQuote;
 
     btn.addEventListener("click", () => {
-      if (navigator.vibrate) navigator.vibrate([30, 50, 30]); 
+      if (navigator.vibrate) navigator.vibrate([30, 50, 30]); // Vibrazione a doppio battito se supportata
       showRandomQuote();
     });
   </script>
