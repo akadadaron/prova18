@@ -6,11 +6,12 @@
   <title>Per la mia futura dottoressa</title>
   <style>
     :root {
-      --bg-color: #000000;
-      --card-bg: #1c1c1e;
-      --text-main: #ffffff;
+      /* Tema chiaro elegante */
+      --bg-color: #f2f2f7; /* Grigio chiarissimo di sistema iOS */
+      --card-bg: #ffffff;
+      --text-main: #1c1c1e;
       --text-secondary: #8e8e93;
-      --accent: #ff3b30; /* Rosso iOS */
+      --accent: #FF3B30; /* Rosso brillante iOS */
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +27,7 @@
       align-items: center;
       padding: 24px;
       -webkit-font-smoothing: antialiased;
-      overflow: hidden; /* Evita lo scroll elastico */
+      overflow: hidden;
     }
 
     .container {
@@ -37,102 +38,173 @@
       gap: 30px;
     }
 
-    /* Stile della Card */
+    /* Stile della Card bianca con ombra delicata */
     .card {
       background: var(--card-bg);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 40px 24px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(255, 59, 48, 0.05);
+      box-shadow: 0 16px 40px rgba(255, 59, 48, 0.08), 0 4px 12px rgba(0,0,0,0.04);
       position: relative;
-      min-height: 250px;
+      min-height: 280px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
     }
 
-    /* Icona del cuore con animazione battito */
+    /* --- INIZIO SEZIONE ECG E CUORE --- */
+    .header-ecg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 24px;
+      height: 40px;
+    }
+
+    .ecg-svg {
+      flex: 1;
+      height: 100%;
+      max-width: 100px;
+    }
+
+    .ecg-line {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 150;
+      stroke-dashoffset: 150;
+    }
+
+    /* Animazione segnale in entrata (da sinistra) */
+    .ecg-left {
+      animation: drawLeft 2.4s infinite linear;
+    }
+    @keyframes drawLeft {
+      0% { stroke-dashoffset: 150; opacity: 0; }
+      5% { opacity: 1; }
+      25% { stroke-dashoffset: 0; opacity: 1; }
+      30% { stroke-dashoffset: 0; opacity: 0; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    /* Cuore al centro con doppio battito sincronizzato */
     .heart-icon {
       width: 32px;
       height: 32px;
       fill: var(--accent);
-      margin-bottom: 24px;
-      animation: heartbeat 2s infinite;
+      margin: 0 12px;
+      animation: beatSync 2.4s infinite linear;
+      filter: drop-shadow(0 4px 8px rgba(255, 59, 48, 0.4));
+    }
+    @keyframes beatSync {
+      0%, 24% { transform: scale(1); }
+      26% { transform: scale(1.25); } /* Primo battito */
+      32% { transform: scale(1); }
+      38% { transform: scale(1.25); } /* Secondo battito */
+      44%, 100% { transform: scale(1); }
     }
 
-    @keyframes heartbeat {
-      0% { transform: scale(1); }
-      15% { transform: scale(1.15); }
-      30% { transform: scale(1); }
-      45% { transform: scale(1.15); }
-      60% { transform: scale(1); }
+    /* Animazione segnale in uscita (verso destra) */
+    .ecg-right {
+      animation: drawRight 2.4s infinite linear;
     }
+    @keyframes drawRight {
+      0%, 40% { stroke-dashoffset: 150; opacity: 0; }
+      42% { opacity: 1; stroke-dashoffset: 150; }
+      62% { stroke-dashoffset: 0; opacity: 1; }
+      67% { stroke-dashoffset: 0; opacity: 0; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    /* --- FINE SEZIONE ECG --- */
 
-    /* Testo delle frasi */
+    /* Testi */
     #quote-text {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 500;
-      line-height: 1.4;
+      line-height: 1.45;
       margin-bottom: 16px;
-      transition: opacity 0.4s ease;
+      color: var(--text-main);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     #quote-author {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
       font-style: italic;
+      font-weight: 400;
       transition: opacity 0.4s ease;
     }
 
-    /* Pulsante stile iOS */
+    /* Pulsante */
     .btn {
       background: var(--accent);
       color: #fff;
       border: none;
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 16px 24px;
       font-size: 1.05rem;
       font-weight: 600;
       width: 100%;
       cursor: pointer;
-      transition: transform 0.1s ease, background 0.3s;
+      box-shadow: 0 8px 20px rgba(255, 59, 48, 0.25);
+      transition: transform 0.15s ease, background 0.3s, box-shadow 0.3s;
       -webkit-tap-highlight-color: transparent;
     }
 
     .btn:active {
       transform: scale(0.96);
       background: #d32f2f;
+      box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);
     }
 
-    /* Classe per l'animazione di sfumatura durante il cambio frase */
-    .fade-out { opacity: 0 !important; }
+    /* Classi per l'animazione di transizione delle frasi */
+    .fade-out { opacity: 0 !important; transform: translateY(5px); }
   </style>
 </head>
 <body>
 
   <div class="container">
     <div class="card">
-      <svg class="heart-icon" viewBox="0 0 24 24">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-      <p id="quote-text">Caricamento...</p>
+      
+      <!-- Blocco Elettrocardiogramma + Cuore -->
+      <div class="header-ecg">
+        <!-- Onda di sinistra -->
+        <svg class="ecg-svg" viewBox="0 0 100 40">
+          <polyline class="ecg-line ecg-left" points="0,20 20,20 25,16 30,20 35,20 37,22 42,4 47,32 50,20 60,20 65,14 75,20 100,20" />
+        </svg>
+        
+        <!-- Cuore -->
+        <svg class="heart-icon" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+
+        <!-- Onda di destra -->
+        <svg class="ecg-svg" viewBox="0 0 100 40">
+          <polyline class="ecg-line ecg-right" points="0,20 15,20 20,16 25,20 30,20 32,22 37,4 42,32 45,20 55,20 60,14 70,20 100,20" />
+        </svg>
+      </div>
+
+      <!-- Testi -->
+      <p id="quote-text">Sincronizzazione in corso...</p>
       <p id="quote-author"></p>
     </div>
 
-    <button id="next-btn" class="btn">Mostra un'altra frase</button>
+    <!-- Pulsante Inferiore -->
+    <button id="next-btn" class="btn">Un altro battito</button>
   </div>
 
   <script>
-    // Array contenente tutte le tue frasi. Puoi aggiungerne quante ne vuoi.
     const quotes = [
-      { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore grande.", author: "Anonimo" },
-      { text: "Studia fino a quando l'anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione Studio" },
-      { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Medicina" },
+      { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore immenso.", author: "Medicina" },
+      { text: "Studia fino a quando l'anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione" },
+      { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Il tuo percorso" },
       { text: "Fai un bel respiro, dottoressa. Non c'è ostacolo che tu non possa superare. Credo in te. – Dada", author: "Per te" },
-      { text: "La medicina cura l'uomo, la medicina preventiva lo salva. Ma l'amore lo fa vivere.", author: "Anonimo" },
-      { text: "Il cuore ha le sue ragioni che la ragione non conosce.", author: "Blaise Pascal" },
-      { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Motivazione" },
+      { text: "La medicina cura l'uomo. Ma l'amore e la dedizione lo fanno vivere.", author: "Ispirazione" },
+      { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Studio" },
       { text: "Il successo non è definitivo, il fallimento non è fatale: ciò che conta è il coraggio di andare avanti.", author: "Winston Churchill" }
     ];
 
@@ -142,7 +214,6 @@
     
     let currentIndex = -1;
 
-    // Funzione per mostrare una frase casuale (diversa dalla precedente)
     function showRandomQuote() {
       let newIndex;
       do {
@@ -151,28 +222,22 @@
       
       currentIndex = newIndex;
 
-      // Effetto di transizione visiva (fade out)
       quoteText.classList.add("fade-out");
       quoteAuthor.classList.add("fade-out");
 
       setTimeout(() => {
-        // Cambia il testo mentre è invisibile
         quoteText.innerText = `"${quotes[currentIndex].text}"`;
         quoteAuthor.innerText = quotes[currentIndex].author ? `- ${quotes[currentIndex].author}` : "";
         
-        // Riporta visibile (fade in)
         quoteText.classList.remove("fade-out");
         quoteAuthor.classList.remove("fade-out");
-      }, 400); // 400ms corrispondono al tempo di transizione CSS
+      }, 400); 
     }
 
-    // Mostra la prima frase al caricamento della pagina
     window.onload = showRandomQuote;
 
-    // Associa la funzione al click del pulsante
     btn.addEventListener("click", () => {
-      // Vibrazione aptica per i dispositivi supportati (effetto nativo iOS)
-      if (navigator.vibrate) navigator.vibrate(50);
+      if (navigator.vibrate) navigator.vibrate([30, 50, 30]); // Vibrazione a doppio battito se supportata
       showRandomQuote();
     });
   </script>
