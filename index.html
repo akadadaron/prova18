@@ -2,32 +2,35 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Per la mia futura dottoressa</title>
   <style>
     :root {
-      /* Tema chiaro elegante */
-      --bg-color: #f2f2f7; /* Grigio chiarissimo di sistema iOS */
+      --bg-color: #f2f2f7;
       --card-bg: #ffffff;
       --text-main: #1c1c1e;
       --text-secondary: #8e8e93;
-      --accent: #FF3B30; /* Rosso brillante iOS */
+      --accent: #FF3B30;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
-      height: 100vh;
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 24px;
+      padding-top: max(24px, env(safe-area-inset-top));
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
       -webkit-font-smoothing: antialiased;
-      overflow: hidden;
     }
 
     .container {
@@ -38,7 +41,6 @@
       gap: 30px;
     }
 
-    /* Stile della Card bianca con ombra delicata */
     .card {
       background: var(--card-bg);
       border-radius: 28px;
@@ -46,14 +48,14 @@
       text-align: center;
       box-shadow: 0 16px 40px rgba(255, 59, 48, 0.08), 0 4px 12px rgba(0,0,0,0.04);
       position: relative;
-      min-height: 280px;
+      min-height: 340px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
     }
 
-    /* --- INIZIO SEZIONE ECG E CUORE --- */
+    /* --- ECG E CUORE --- */
     .header-ecg {
       display: flex;
       align-items: center;
@@ -61,13 +63,10 @@
       width: 100%;
       margin-bottom: 24px;
       height: 40px;
+      flex-shrink: 0;
     }
 
-    .ecg-svg {
-      flex: 1;
-      height: 100%;
-      max-width: 100px;
-    }
+    .ecg-svg { flex: 1; height: 100%; max-width: 100px; }
 
     .ecg-line {
       fill: none;
@@ -79,10 +78,7 @@
       stroke-dashoffset: 150;
     }
 
-    /* Animazione segnale in entrata (da sinistra) */
-    .ecg-left {
-      animation: drawLeft 2.4s infinite linear;
-    }
+    .ecg-left { animation: drawLeft 2.4s infinite linear; }
     @keyframes drawLeft {
       0% { stroke-dashoffset: 150; opacity: 0; }
       5% { opacity: 1; }
@@ -91,7 +87,6 @@
       100% { stroke-dashoffset: 0; opacity: 0; }
     }
 
-    /* Cuore al centro con doppio battito sincronizzato */
     .heart-icon {
       width: 32px;
       height: 32px;
@@ -102,16 +97,13 @@
     }
     @keyframes beatSync {
       0%, 24% { transform: scale(1); }
-      26% { transform: scale(1.25); } /* Primo battito */
+      26% { transform: scale(1.25); }
       32% { transform: scale(1); }
-      38% { transform: scale(1.25); } /* Secondo battito */
+      38% { transform: scale(1.25); }
       44%, 100% { transform: scale(1); }
     }
 
-    /* Animazione segnale in uscita (verso destra) */
-    .ecg-right {
-      animation: drawRight 2.4s infinite linear;
-    }
+    .ecg-right { animation: drawRight 2.4s infinite linear; }
     @keyframes drawRight {
       0%, 40% { stroke-dashoffset: 150; opacity: 0; }
       42% { opacity: 1; stroke-dashoffset: 150; }
@@ -119,11 +111,15 @@
       67% { stroke-dashoffset: 0; opacity: 0; }
       100% { stroke-dashoffset: 0; opacity: 0; }
     }
-    /* --- FINE SEZIONE ECG --- */
 
-    /* Testi */
+    /* Rispetta chi ha disattivato le animazioni nel sistema */
+    @media (prefers-reduced-motion: reduce) {
+      .ecg-line { animation: none; stroke-dashoffset: 0; }
+      .heart-icon { animation: none; }
+    }
+
     #quote-text {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 500;
       line-height: 1.45;
       margin-bottom: 16px;
@@ -139,7 +135,6 @@
       transition: opacity 0.4s ease;
     }
 
-    /* Pulsante */
     .btn {
       background: var(--accent);
       color: #fff;
@@ -161,7 +156,6 @@
       box-shadow: 0 4px 10px rgba(255, 59, 48, 0.2);
     }
 
-    /* Classi per l'animazione di transizione delle frasi */
     .fade-out { opacity: 0 !important; transform: translateY(5px); }
   </style>
 </head>
@@ -169,75 +163,130 @@
 
   <div class="container">
     <div class="card">
-      
-      <!-- Blocco Elettrocardiogramma + Cuore -->
-      <div class="header-ecg">
-        <!-- Onda di sinistra -->
+      <div class="header-ecg" aria-hidden="true">
         <svg class="ecg-svg" viewBox="0 0 100 40">
           <polyline class="ecg-line ecg-left" points="0,20 20,20 25,16 30,20 35,20 37,22 42,4 47,32 50,20 60,20 65,14 75,20 100,20" />
         </svg>
-        
-        <!-- Cuore -->
         <svg class="heart-icon" viewBox="0 0 24 24">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
-
-        <!-- Onda di destra -->
         <svg class="ecg-svg" viewBox="0 0 100 40">
           <polyline class="ecg-line ecg-right" points="0,20 15,20 20,16 25,20 30,20 32,22 37,4 42,32 45,20 55,20 60,14 70,20 100,20" />
         </svg>
       </div>
 
-      <!-- Testi -->
-      <p id="quote-text">Sincronizzazione in corso...</p>
+      <p id="quote-text" aria-live="polite">Sincronizzazione in corso...</p>
       <p id="quote-author"></p>
     </div>
 
-    <!-- Pulsante Inferiore -->
     <button id="next-btn" class="btn">Un altro battito</button>
   </div>
 
   <script>
     const quotes = [
+      // --- Le tue frasi originali ---
       { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore immenso.", author: "Medicina" },
-      { text: "Studia fino a quando l'anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione" },
+      { text: "Studia fino a quando l’anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione" },
       { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Il tuo percorso" },
-      { text: "Fai un bel respiro, dottoressa. Non c'è ostacolo che tu non possa superare. Credo in te. – Dada", author: "Per te" },
-      { text: "La medicina cura l'uomo. Ma l'amore e la dedizione lo fanno vivere.", author: "Ispirazione" },
+      { text: "Fai un bel respiro, dottoressa. Non c’è ostacolo che tu non possa superare. Credo in te. – Dada", author: "Per te" },
+      { text: "La medicina cura l’uomo. Ma l’amore e la dedizione lo fanno vivere.", author: "Ispirazione" },
       { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Studio" },
-      { text: "Il successo non è definitivo, il fallimento non è fatale: ciò che conta è il coraggio di andare avanti.", author: "Winston Churchill" }
+      { text: "Il successo non è definitivo, il fallimento non è fatale: ciò che conta è il coraggio di andare avanti.", author: "Attribuita a Winston Churchill" },
+
+      // --- Nuove citazioni ---
+      { text: "Ovunque l’arte della medicina sia amata, c’è anche un amore per l’umanità.", author: "Ippocrate" },
+      { text: "La medicina è una scienza dell’incertezza e un’arte della probabilità.", author: "William Osler" },
+      { text: "Il cuore ha le sue ragioni che la ragione non conosce.", author: "Blaise Pascal" },
+      { text: "La cura più grande per l’uomo è un altro essere umano.", author: "Patch Adams" },
+      { text: "Il buon medico cura la malattia; il grande medico cura la persona che ha la malattia.", author: "William Osler" },
+      { text: "Solo i cuori coraggiosi sanno riconoscere il battito del cambiamento.", author: "Rita Levi-Montalcini" },
+      { text: "La vita è breve, l’arte è lunga, l’occasione fugace, l’esperimento fallace, il giudizio difficile.", author: "Ippocrate" },
+      { text: "Non smettere mai di imparare, perché la vita non smette mai di insegnare.", author: "Lin Yutang" },
+      { text: "Un medico non deve mai perdere la capacità di meravigliarsi davanti alla vita che resiste.", author: "Paul Kalanithi" },
+      { text: "Il ritmo del cuore non mente mai: insegna che dopo ogni contrazione c’è sempre un momento per respirare.", author: "Proverbio medico" },
+      { text: "Ciò che facciamo solo per noi stessi muore con noi; ciò che facciamo per gli altri e per il mondo resta ed è immortale.", author: "Albert Pike" },
+      { text: "Ascolta il paziente: ti sta dicendo la diagnosi.", author: "William Osler" },
+      { text: "La scienza e la medicina non sono una professione, sono una forma di dedizione quotidiana.", author: "Umberto Veronesi" },
+      { text: "C’è un solo tipo di successo: essere in grado di fare della propria vita ciò che si desidera.", author: "Christopher Morley" },
+      { text: "Il cuore è il primo organo a formarsi e l’ultimo a smettere di battere: prendersene cura significa custodire l’essenza stessa della vita.", author: "Anonimo" },
+      { text: "Le grandi cose sono fatte da una serie di piccole cose messe insieme.", author: "Vincent van Gogh" },
+      { text: "La medicina è un cammino di fatica silenziosa che si trasforma in speranza per chi non ne ha più.", author: "Albert Schweitzer" },
+      { text: "Chiunque può arrendersi, è la cosa più facile del mondo. Ma tenere duro quando tutti gli altri capirebbero se cedessi, questa è la vera forza.", author: "Anonimo" },
+      { text: "Non consultare le tue paure, ma le tue speranze e i tuoi sogni.", author: "Papa Giovanni XXIII" },
+      { text: "La professione medica è una vocazione, non un mestiere: richiede cervello, cuore e mani ferme.", author: "Christiaan Barnard" },
+      { text: "Riparare un cuore non è solo una questione di bisturi o farmaci, è un patto silenzioso con la vita altrui.", author: "Anonimo" },
+      { text: "Non arrenderti mai, perché quando pensi che sia finita, è proprio allora che tutto comincia.", author: "Anonimo" },
+      { text: "In mezzo alla difficoltà risiede l’opportunità.", author: "Attribuita a Albert Einstein" },
+      { text: "La fiducia in se stessi è il primo segreto del successo.", author: "Ralph Waldo Emerson" },
+      { text: "L’obiettivo del medico è guarire a volte, alleviare spesso, confortare sempre.", author: "Ambroise Paré" },
+      { text: "Il futuro appartiene a coloro che credono nella bellezza dei propri sogni.", author: "Eleanor Roosevelt" },
+      { text: "La fatica di oggi sui libri è il respiro che restituirai a qualcuno domani.", author: "Anonimo" },
+      { text: "Un cuore generoso e una mente rigorosa: è questa la vera armatura del medico.", author: "Rudolf Virchow" },
+      { text: "Ciò che la mente non conosce, gli occhi non vedono.", author: "William Osler" },
+      { text: "La perseveranza è il duro lavoro che fai dopo che ti sei stancato di fare il duro lavoro che hai già fatto.", author: "Newt Gingrich" },
+      { text: "Chi salva una vita, salva il mondo intero.", author: "Talmud" },
+      { text: "Nulla nella vita va temuto, dev’essere solo compreso. Ora è il tempo di comprendere di più, per temere di meno.", author: "Marie Curie" },
+      { text: "Il battito cardiaco è la sinfonia più perfetta che la natura abbia mai composto.", author: "Anonimo" },
+      { text: "L’eccellenza non è un atto, ma un’abitudine.", author: "Will Durant" },
+      { text: "Dietro ogni esame superato c’è un paziente che riceverà cure migliori.", author: "Anonimo" },
+      { text: "La passione per ciò che fai è la scintilla che accende ogni notte insonne sui libri.", author: "Anonimo" },
+      { text: "Non giudicare ogni giorno dal raccolto che ottieni, ma dai semi che pianti.", author: "Robert Louis Stevenson" },
+      { text: "Un chirurgo deve avere l’occhio di un falco, il cuore di un leone e la mano di una donna.", author: "Antico aforisma chirurgico" },
+      { text: "La medicina richiede che non si dimentichi mai la persona dietro la diagnosi.", author: "Oliver Sacks" },
+      { text: "Il segreto per andare avanti è iniziare.", author: "Attribuita a Mark Twain" },
+      { text: "Abbi cura del tuo entusiasmo: sarà il carburante migliore nei momenti più duri.", author: "Anonimo" },
+      { text: "La cura è un’arte: richiede una devozione totale e un’attenzione instancabile.", author: "Florence Nightingale" },
+      { text: "Non è perché le cose sono difficili che non osiamo, è perché non osiamo che sono difficili.", author: "Seneca" },
+      { text: "Ogni battito che ausculterai racconterà una storia di resilienza: impara a leggerla.", author: "Anonimo" },
+      { text: "Il successo non è la chiave della felicità. La felicità è la chiave del successo. Se ami ciò che fai, avrai successo.", author: "Albert Schweitzer" },
+      { text: "Credi di potercela fare e sarai già a metà strada.", author: "Theodore Roosevelt" },
+      { text: "Il cammino della medicina è lungo e ripido, ma la vista dall’alto ripaga ogni singolo passo.", author: "Anonimo" },
+      { text: "Il tuo tempo è limitato, quindi non sprecarlo vivendo la vita di qualcun altro.", author: "Steve Jobs" },
+      { text: "Nel petto batte il motore della vita; capirne i segreti è uno dei privilegi più grandi concessi a un essere umano.", author: "Anonimo" },
+      { text: "Non temere i momenti di stanchezza: ricordano solo quanto valore ha il traguardo che stai costruendo.", author: "Anonimo" }
     ];
 
     const quoteText = document.getElementById("quote-text");
     const quoteAuthor = document.getElementById("quote-author");
     const btn = document.getElementById("next-btn");
-    
-    let currentIndex = -1;
+
+    // "Sacchetto" mescolato: nessuna frase si ripete finché non sono uscite tutte
+    let bag = [];
+    let lastIndex = -1;
+
+    function refillBag() {
+      bag = quotes.map((_, i) => i);
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+      // evita che la prima del nuovo giro coincida con l'ultima del precedente
+      if (bag[bag.length - 1] === lastIndex && bag.length > 1) {
+        [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+      }
+    }
 
     function showRandomQuote() {
-      let newIndex;
-      do {
-        newIndex = Math.floor(Math.random() * quotes.length);
-      } while (newIndex === currentIndex && quotes.length > 1);
-      
-      currentIndex = newIndex;
+      if (bag.length === 0) refillBag();
+      const index = bag.pop();
+      lastIndex = index;
+      const q = quotes[index];
 
       quoteText.classList.add("fade-out");
       quoteAuthor.classList.add("fade-out");
 
       setTimeout(() => {
-        quoteText.innerText = `"${quotes[currentIndex].text}"`;
-        quoteAuthor.innerText = quotes[currentIndex].author ? `- ${quotes[currentIndex].author}` : "";
-        
+        quoteText.textContent = `“${q.text}”`;
+        quoteAuthor.textContent = q.author ? `— ${q.author}` : "";
         quoteText.classList.remove("fade-out");
         quoteAuthor.classList.remove("fade-out");
-      }, 400); 
+      }, 400);
     }
 
-    window.onload = showRandomQuote;
+    window.addEventListener("load", showRandomQuote);
 
     btn.addEventListener("click", () => {
-      if (navigator.vibrate) navigator.vibrate([30, 50, 30]); // Vibrazione a doppio battito se supportata
+      if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
       showRandomQuote();
     });
   </script>
