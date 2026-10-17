@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Per la mia futura dottoressa</title>
+  <title>Per quando ne hai bisogno</title>
   <style>
     :root {
       --bg-color: #f2f2f7;
@@ -35,20 +35,20 @@
 
     .container {
       width: 100%;
-      max-width: 400px;
+      max-width: 340px;
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 20px;
     }
 
     .card {
       background: var(--card-bg);
       border-radius: 28px;
-      padding: 40px 24px;
+      padding: 28px 20px;
       text-align: center;
       box-shadow: 0 16px 40px rgba(255, 59, 48, 0.08), 0 4px 12px rgba(0,0,0,0.04);
       position: relative;
-      min-height: 340px;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -61,8 +61,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      margin-bottom: 24px;
-      height: 40px;
+      margin-bottom: 12px;
+      height: 32px;
       flex-shrink: 0;
     }
 
@@ -118,8 +118,18 @@
       .heart-icon { animation: none; }
     }
 
+    .quote-box {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
     #quote-text {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 500;
       line-height: 1.45;
       margin-bottom: 16px;
@@ -175,8 +185,10 @@
         </svg>
       </div>
 
-      <p id="quote-text" aria-live="polite">Sincronizzazione in corso...</p>
-      <p id="quote-author"></p>
+      <div class="quote-box">
+        <p id="quote-text" aria-live="polite">Sincronizzazione in corso...</p>
+        <p id="quote-author"></p>
+      </div>
     </div>
 
     <button id="next-btn" class="btn">Un altro battito</button>
@@ -188,7 +200,7 @@
       { text: "Un grande chirurgo non ha solo mani ferme, ma un cuore immenso.", author: "Medicina" },
       { text: "Studia fino a quando l’anatomia del cuore non avrà più segreti per te. Sei nata per questo.", author: "Motivazione" },
       { text: "Ogni pagina che studi oggi è un battito in più che salverai domani.", author: "Il tuo percorso" },
-      { text: "Fai un bel respiro, dottoressa. Non c’è ostacolo che tu non possa superare. Credo in te. – Dada", author: "Per te" },
+      { text: "Fai un bel respiro, dottoressa. Non c’è ostacolo che tu non possa superare. Credo in te.", author: "Dada" },
       { text: "La medicina cura l’uomo. Ma l’amore e la dedizione lo fanno vivere.", author: "Ispirazione" },
       { text: "Non permettere a un esame difficile di farti dimenticare il chirurgo straordinario che diventerai.", author: "Studio" },
       { text: "Il successo non è definitivo, il fallimento non è fatale: ciò che conta è il coraggio di andare avanti.", author: "Attribuita a Winston Churchill" },
